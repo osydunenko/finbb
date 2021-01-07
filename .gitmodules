@@ -1,0 +1,3 @@
+[submodule "3rdParty/beast-router"]
+	path = 3rdParty/beast-router
+	url = https://github.com/osydunenko/beast-router.git
