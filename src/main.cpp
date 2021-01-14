@@ -2,6 +2,8 @@
 
 #include "options_config.hpp"
 #include "net_config.hpp"
+#include "logger_config.hpp"
+#include "router.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -11,7 +13,7 @@ int main(int argc, char *argv[])
 
     po::options_description options{"Allowed options"};
     options.add_options()
-        ("help", "This help message")
+        ("help,h", "This help message")
         ("port,p", po::value<decltype(port_num)>(&port_num), "Port number")
         ("address,a", po::value<decltype(address)>(&address), "IP Address i.e. 127.0.0.1")
         ("threads,t", po::value<decltype(threads_num)>(&threads_num), "Threads number");
@@ -20,6 +22,8 @@ int main(int argc, char *argv[])
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, options), vm);
         po::notify(vm);
+
+        init_spdlog();
 
         if (vm.count("help")) {
             std::cerr << options << std::endl;
@@ -34,6 +38,10 @@ int main(int argc, char *argv[])
         };
 
         http_listener::on_accept_type on_accept = [&](http_listener::socket_type socket) {
+            SPDLOG_DEBUG("got new connection from {}:{}", 
+                    socket.remote_endpoint().address().to_string(),
+                    socket.remote_endpoint().port());
+            http_session::recv(std::move(socket), global_router::get_instance(), on_error);
         };
 
         // Start listening
@@ -54,7 +62,6 @@ int main(int argc, char *argv[])
 
     } catch(std::exception &ex) {
         std::cerr << ex.what() << std::endl;
-        std::cerr << options << std::endl;
         return 1;
     }
 

@@ -6,10 +6,10 @@
 #include <boost/asio/ip/address.hpp>
 #include <boost/beast/http/message.hpp>
 
-#include "listener.hpp"
-#include "session.hpp"
-#include "router.hpp"
-#include "base/lockable.hpp"
+#include "beast-router/listener.hpp"
+#include "beast-router/session.hpp"
+#include "beast-router/router.hpp"
+#include "beast-router/base/lockable.hpp"
 
 using http_listener = server::default_listener;
 using http_session = server::default_session;
@@ -23,4 +23,5 @@ namespace ip = boost::asio::ip;
 
 static boost::asio::io_context ioc;
 static boost::asio::signal_set sig_int_term{ioc, SIGINT, SIGTERM};
+
 

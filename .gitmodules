@@ -1,3 +1,6 @@
 [submodule "3rdParty/beast-router"]
 	path = 3rdParty/beast-router
 	url = https://github.com/osydunenko/beast-router.git
+[submodule "3rdParty/spdlog"]
+	path = 3rdParty/spdlog
+	url = https://github.com/gabime/spdlog.git
