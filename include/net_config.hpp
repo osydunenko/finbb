@@ -11,9 +11,9 @@
 #include "beast-router/router.hpp"
 #include "beast-router/base/lockable.hpp"
 
-using http_listener = server::default_listener;
-using http_session = server::default_session;
-using http_router = server::router<http_session>;
+using http_listener = beast_router::default_listener;
+using http_session = beast_router::default_session;
+using http_router = beast_router::router<http_session>;
 
 using http_context = typename http_session::context_type;
 using beast_http_request = typename http_session::request_type;
